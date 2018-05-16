@@ -367,3 +367,62 @@ let d = new Drone();
 * Querying and Sort Data
 * Filtering Data
 
+## User Interface Classes
+
+### Material Design Lite
+
+https://getmdl.io/components/index.html
+
+Install:
+
+```
+$ npm install -save material-design-lite
+```
+
+And we also need jQuery
+
+```
+$ npm install -save jquery
+```
+
+Since we use jQuery, we need SystemJS
+
+```
+$ npm install -save systemjs
+```
+
+The `index.html` will now look like this:
+
+```html
+<html>
+  <head>
+    <title>Drones</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/node_modules/material-design-lite/dist/material.css">
+    
+    <script src="node_modules/traceur/bin/traceur.js"></script>
+    <!-- <script src="node_modules/es6-module-loader/dist/es6-module-loader-dev.js"></script> -->
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <script src="node_modules/material-design-lite/dist/material.js"></script>
+  </head>
+  <body>
+      <script>
+          //So that jquery becomes and ES6 module (?)
+          System.paths['jquery'] = './node_modules/jquery/dist/jquery.js';
+          System.import('src/app.js');
+      </script> 
+  </body>
+</html> 
+```
+
+To use, for example, we have `base class` 
+
+```javascript
+import $ from 'jquery';
+
+export class BaseElement {
+
+}
+```
+
+We don't use `{}` in the import for jQuery.

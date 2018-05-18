@@ -220,7 +220,7 @@ var nextLevel = level++;
 console.log(nextLevel); // 5
 console.log(level); // 6
 ```
- 
+
  If we do the suffix (`level++`), the value of `level` is only changed after the line executes.
 
  So...
@@ -292,6 +292,110 @@ else
 // You would think that it would be true but not in Javascript
 // Output: false 
 ```
+
+
+
+## Reference types
+
+* Objects
+* Arrays
+* Dates
+* Regexes
+* Functions
+* Primitives (via Wrappers) ???
+
+### Primitive Type Storage
+
+```Javascript
+var n = 42;
+var a = n;
+// a will copy the value 42 from n
+// the value of stored twice
+```
+
+ ### Reference Type Storage
+
+```javascript
+var foo = {
+    name: "Jill"
+}
+
+var bar = foo;
+// bar will point to the same memory location of foo
+// value is not copied. they both just point to the same location that contains the value
+
+// Setting this
+bar.name = "Jack";
+
+// Obviously...
+console.log(bar.name); // Jack
+console.log(foo.name); // Jack
+// Since they just point to the same location in memory
+
+```
+
+
+
+### Arrays
+
+```Javascript
+var a1 = [1, 2, 3];
+var a2 = a1;
+a1[0] = 99;
+console.log(a2[0]); // 99 - because arrays are reference types
+```
+
+This is different from PHP because:
+
+```javascript
+$ php -a
+php > $a = [1,2,3];
+php > $b = $a;
+php > $b[0] = 99;
+php > var_dump($b);
+array(3) {
+  [0]=>
+  int(99)
+  [1]=>
+  int(2)
+  [2]=>
+  int(3)
+}
+php > var_dump($a);
+array(3) {
+  [0]=>
+  int(1)
+  [1]=>
+  int(2)
+  [2]=>
+  int(3)
+}
+```
+
+See that arrays in PHP are not by reference? So when you assign `$b = $a;` the copy of the array is set to `$b`. So modifying each one will not affect each other.
+
+#### Sorting gotchas
+
+```javascript
+var ratings = [4, 1, 3, 2, 10];
+ratings.sort();
+console.log(ratings.toString()); // 1, 10, 2, 3, 4 
+// WTF. It is sorting by string
+```
+
+To correctly sort this, we need to do something like this:
+
+```javascript
+var ratings = [4, 1, 3, 2, 10];
+ratings.sort(function (value1, value2) {
+   return value1 - value2; 
+});
+console.log(ratings.toString()); // 1, 2, 3, 4, 10
+// Yisss
+```
+
+### Date Fundamentals
+
 
 
 ------------------

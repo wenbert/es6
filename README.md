@@ -128,6 +128,68 @@ console.log(blockLevelVar); // Error not defined.
 
 Anything in the `catch` block param will only be scoped within that block.
 
+
+## Operatos
+
+### Addition
+Working with floating points...
+```javascript
+var total = 5.1 + 3.3;
+console.log(total); // 8.399999;
+console.log(total.toFixed(2)); // 8.40 Good
+```
+
+Also `+` is used to concatenate a string. Javascript would always try to concat strings.
+
+```javascript
+var id = 2000 + 'PRD';
+console.log(id); // 2000PRD
+
+var id = 'PRD' + undefined;
+console.log(id) // PRDundefined
+
+var id = 2000 + undefined;
+console.log(id); // NaN
+```
+
+### Substraction
+Javascript puts variables in numeric context.
+```javascript
+var total = 3.8 - 2.1;
+console.log(total.toFixed(3)); // 1.700
+
+var total = "300" - "200";
+console.log(total); // 100 
+// Remember, it takes the numeric context of 300 and 200
+
+var total = "PRD300" - "ITEM200";
+console.log(total); // NaN
+
+var total = 300 - undefined;
+console.log(total); // NaN
+// Any opearation with NaN will result in NaN
+
+var total = 300 - null;
+console.log(total); // 300
+
+var total = 300 - "";
+console.log(total); // 300
+// The numeric context of "" is 0
+```
+
+`valueOf` property. (Why is this here?)
+
+```javascript
+var obj = {
+    valueOf: function() { 
+        return 100;
+    }
+};
+var total = 300 - obj;
+console.log(total); // 100
+// "valueOf" is special. Again, why is this here? LOL
+```
+ 
 ------------------
 
 Check: https://codeburst.io/es6-tutorial-for-beginners-5f3c4e7960be

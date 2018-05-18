@@ -50,6 +50,86 @@ This is because in the first pass, the compiler will find out that it's a functi
 
 TLDR; Javascript runs in 2 passes. In the first pass, it sets variables into `undefined`.
 
+### null
+
+```javascript
+var productId = null;
+console.log(typeof productId); // object
+
+console.log(typeof null); // object
+
+console.log(undefined == null); // true
+console.log(undefined === null); // false, obviously
+```
+
+### Global scope
+
+```javascript
+var productId = '123';
+
+console.log(productId); // 123
+console.log(window.productId); // 123 
+// In nodejs use global object instead of window object
+
+console.log(this === window); // true in browser
+```
+
+```javascript
+var description = 'hardware';
+
+function updateProduct() {
+    description = 'updated propduct';
+}
+
+updateProduct();
+console.log(description); // hardware
+```
+This is because `var description` is set in `global scope`. And inside the `updatedProduct` it is also accessing a the global scope.
+
+To avoid bugs like these, set the `description` as `var description` to make have it only scoped within the function.
+
+Important: Avoid polluting the `global` namespace.
+
+### function scope
+```javascript
+function updateProduct() {
+    var description = 'updated product';
+    var updatedProductId = function() {
+        console.log(description);
+    }
+
+    updateProductId();
+}
+
+updatedProduct();
+
+//Output: updated product
+```
+That is an example of a function within a function. The inner or child function will have the scope of the parent function.
+
+The rule is that Javascript will look-up first within it's current function scope. If the variable is not found within it's own function scope, it will go one step up to it's parent function. If still not there, it will go up to the grandparent until it reaches the global namespace.
+
+And when it can't find it in the global namespace, we get a `ReferenceError: <var> is not defined`
+
+### block scope
+```javascript
+'use strict';
+
+try {
+    throw 'somethingBlockLevelVar';
+}
+catch (blockLevelVar) {
+    console.log(blockLevelVar);
+    // It is in scope in this block
+}
+
+console.log(blockLevelVar); // Error not defined.
+```
+
+Anything in the `catch`
+
+------------------
+
 Check: https://codeburst.io/es6-tutorial-for-beginners-5f3c4e7960be
 
 ## Object-oriented Programming in JavaScript - ES6

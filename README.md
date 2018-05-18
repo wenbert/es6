@@ -187,9 +187,113 @@ var obj = {
 };
 var total = 300 - obj;
 console.log(total); // 100
-// "valueOf" is special. Again, why is this here? LOL
+// "valueOf" is special.
+```
+
+### Multication, division
+```javascript
+var total = 4 * "XYZ";
+console.log(total); // NaN
+
+var total = 9 / 0;
+console.log(total); // Infinity
+// No exception thrown
+
+var total = 9 / "   3   ";
+console.log(total); // 3
+// "   3   " numeric value is 3
+```
+
+## Unary operators
+`++` or `--`;
+
+```javascript
+var level = 5;
+var nextLevel = ++level;
+console.log(nextLevel); // 6
+console.log(level); // 6
+
+//BUT
+
+var level = 5;
+var nextLevel = level++;
+console.log(nextLevel); // 5
+console.log(level); // 6
 ```
  
+ If we do the suffix (`level++`), the value of `level` is only changed after the line executes.
+
+ So...
+
+ ```javascript
+ var level = 5;
+ var base = 10;
+ var nextLevel = level-- * base;
+ console.log(nextLevel); // 50 because (5 * 10)
+
+ var nextLevel = --level * base;
+ console.log(nextLevel); // 40 because (4 * 10)
+ ```
+
+### Bitwise operators
+For binary numbers
+`&&`, `|`, `^`
+`<<`, `>>`
+
+### Boolean operatos
+`!`
+```javascript
+var value = !99;
+console.log(value); //false
+
+var value = !0;
+console.log(value); //true
+
+var value = !"";
+console.log(value); //true
+
+var value = !" ";
+console.log(value); //false
+
+var value = !new Object();
+console.log(value); //false
+
+var value = !null;
+console.log(value); //true
+
+var value = !undefined;
+console.log(value); //true
+
+var value = !NaN;
+console.log(value); //true
+
+var value = !!false; //bang-bang shortcut convert to boolean
+console.log(value); //false
+```
+etc.
+
+### Equality operators
+```javascript
+if (true == 1)
+    console.log('true');
+else
+    console.log('false');
+
+//Output: true
+```
+
+BUT
+```javascript
+if (true == 2)
+    console.log('true');
+else
+    console.log('false');
+
+// You would think that it would be true but not in Javascript
+// Output: false 
+```
+
+
 ------------------
 
 Check: https://codeburst.io/es6-tutorial-for-beginners-5f3c4e7960be

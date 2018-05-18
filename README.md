@@ -126,7 +126,7 @@ catch (blockLevelVar) {
 console.log(blockLevelVar); // Error not defined.
 ```
 
-Anything in the `catch`
+Anything in the `catch` block param will only be scoped within that block.
 
 ------------------
 

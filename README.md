@@ -396,6 +396,35 @@ console.log(ratings.toString()); // 1, 2, 3, 4, 10
 
 ### Date Fundamentals
 
+Date start from epoch 0. `Jan 1, 1970`
+
+Keyword: `MDN Date` (Mozilla Developers Network)
+
+### Regular Expressions
+
+x_X
+
+```javascript
+var blogText = "Sam I Am";
+var pattern = /m/g;
+var result = pattern.exec(blogText);
+while (result) {
+    console.log(result.index);
+    result = patten.exec(blogText)
+}
+/*
+Output:
+2
+7
+*/
+```
+
+Obviously more to this...
+
+## Objects, JSON, and Prototypes
+
+… to do …
+
 
 
 ------------------

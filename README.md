@@ -628,7 +628,7 @@ var jQuery = {};
 })(app, jQuery);
 ```
 
-
+Ok, let's end it here. Let's go to ES6 now.
 
 ------------------
 

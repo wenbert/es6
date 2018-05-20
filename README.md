@@ -1,4 +1,5 @@
 # ES6
+
 Next Rapid ES6 Training https://app.pluralsight.com/library/courses/rapid-es6-training/table-of-contents
 
 ## Rapid Javascript Training
@@ -423,7 +424,209 @@ Obviously more to this...
 
 ## Objects, JSON, and Prototypes
 
-… to do …
+```javascript
+var project = {
+    name: 'Project Phoenix',
+    team: ['Foo', 'Bar'],
+};
+consoel.log(project.name);    // Project Phoenix
+console.log(project['name']); // Project Phoenix
+
+console.log(project.team[0]); // Foo
+// So on, and so forth...
+```
+
+How does the Javascript engine resolve function names?
+
+```javascript
+var project = anyObject;
+project.someFunction();
+```
+
+All JS objects sort of inherit from `prototype`.
+
+```javascript
+project.someFunction();
+project.prototype.someFunction();
+project.prototype.prototype.someFunction();
+project.prototype.prototype.prototype.someFunction();
+// etc.
+// Until we hit undefined
+```
+
+### Working with Prototypes
+
+```javascript
+var project = {
+    name: 'Project Phoenix'
+};
+console.log(project.toString());
+```
+
+Guess where `toString()` is found? Yep, inside Prototype.
+
+* `hasOwnProperty()`, `isPrototypeOf()`
+* `object.Create()`, `object.defineProperty()`
+
+Every object is going to have Prototype attached to it.
+
+*Note: This seem to deal with something I might not use quite often. So I will skim through the videos quickly.*
+
+### Object.defineProperty()
+
+`writable`, `enumerable`, `configurable`
+
+## Functions
+
+* Function Expressions
+* Constructor Functions
+* The "this" keyword
+* Calling Function (call and apply)
+* Closures
+* IIFE's
+
+### Naming Function Expressions
+
+```javascript
+var hireEmployee = function myHireEmployeeFn(name) {
+    throw ('Error');
+}
+var action = hireEmployee;
+action('JJ');
+// Uncaught Error - myHireEmployeeFn
+// As opposed to just seeing hireEmployee
+// Makes debugging easier
+```
+
+So, instead of using anoymous functions, give it a name - ie: `myHireEmployeeFn`
+
+### Constructor Functions
+
+```javascript
+console.log(typeof Object); // function
+// it's a function not an object
+```
+
+So let's create a simple object
+
+```javascript
+var Employee = function(name, boss) {
+    this.name = name;
+    this.boss = boss;
+};
+var newEmployee = new Employee('JJ', 'JD Hogg');
+console.log(typeof newEmployee); // object
+console.log(newEmployee.name);
+```
+
+No public, private variables yet.
+
+```javascript
+var Employee = function (name) {
+    this.name = name;
+}
+var e1 = newEmployee('Foo');
+var e2 = newEmployee('Bar');
+console.log(e1 === e2); // false - not the same object
+console.log(e1.__proto__ == e2.__proto__); // true
+```
+
+Using a prototype to prevent duplicates.
+
+```javascript
+var Employee = function (name) {
+    this.name = name;
+    this.giveRaise = function() {
+        
+    }
+}
+var e1 = newEmployee('Foo');
+var e2 = newEmployee('Bar');
+console.log(e1.giveRaise === e2.giveRaise); // false
+```
+
+Since `e1.giveRaise` is not equal to `e2.giveRaise`, if we create 100,000 objects. That would be a problem because this function would be duplicated 100,000 times.
+
+We should take out the `giveRaise` function and add it to the prototype.
+
+```javascript
+var Employee = function(name) {
+    this.name = name;
+    this.salary = 50000;
+}
+Employee.prototype.giveRaise = function(raise) {
+    this.salary += raise;
+};
+var e1 = newEmployee('Foo');
+var e2 = newEmployee('Bar');
+e1.giveRaise(100000);
+console.log(e1.salary); // 150000
+console.log(e2.salary); // 50000
+// So they are still separate objects but the `giveRaise` function exists only once
+```
+
+So now, if we had a 100,000 objects, our `giveRaise` function only exists once.
+
+### The "this" Keyword
+
+```javascript
+console.log(this); // object
+console.log(this === window) // true
+
+var employee = {
+    name: 'Jeff',
+    updateSalary: function() {
+        console.log(this);
+    }
+};
+employee.updateSalary(); // Object {name: "Jeff"}
+// because `this` was called inside the function
+```
+
+### Calling Functions
+
+`call`, `apply`
+
+### Closures
+
+Functions that persist.
+
+### IIFES OR Immediately Invoked Function Expressions
+
+```javascript
+(function () {
+    console.log('Executed!');
+})();
+```
+
+Prevents pollution of the global namespace. For example:
+
+```javascript
+(function () {
+    var employee = 'John';
+})();
+console.log(employee); // Uncaught ReferenceError: employee is not defined
+```
+
+Some realworld examples:
+
+```javascript
+var app = {};
+(function (ns) {
+    ns.name = 'None';
+})(app);
+console.log(app.name); // None
+```
+
+```javascript
+var app = {};
+var jQuery = {};
+
+(function (ns, $) {
+    ns.name = 'None';
+    console.log($ === jQuery); // true
+})(app, jQuery);
+```
 
 
 

@@ -1,4 +1,5 @@
-# Next Rapid ES6 Training
+# Rapid ES6 Training
+
 https://app.pluralsight.com/library/courses/rapid-es6-training/table-of-contents
 
 ECMAScript 2015 == ES6

@@ -219,23 +219,3 @@ console.log(5.00); // 5.35
 So that works. The `function(price, tax = price * 0.07)` has it's own "scope" within that line. You can even make the `0.07` into a variable and it would still work. You can even use `functions` to get `0.07`.
 
 ### Rest and Spread
-
-Next...
-
-#Rapid Javascript Training
-
-https://github.com/wenbert/es6/blob/master/rapid-javascript-training/README.md
-
-Rapid Javascript Training in Pluralsight https://app.pluralsight.com/player?course=rapid-javascript-training&author=mark-zamoyta&name=rapid-javascript-training-m1&clip=1&mode=live
-
-# Object-oriented Programming in JavaScript - ES6
-
-See: https://github.com/wenbert/es6/blob/master/object-oriented-programming-in-javascript-es6/README.md
-
-I moved it to that directory because: https://github.com/wenbert/es6/issues/1
-
-# To check
-
-https://codeburst.io/es6-tutorial-for-beginners-5f3c4e7960be
-
-https://youtu.be/7_2CJs_VZk4

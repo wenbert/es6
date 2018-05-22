@@ -502,6 +502,184 @@ Careful though, it seems that it should be `high` but it is the other way around
 
 Google is my friend.
 
+## ES6 Modules and Classes
+
+Module loading do not work in browsers yet. But in this module, we can setup so that we can load modules in browsers.
+
+* Module Basics
+* Named Exports
+* Classes 
+* extends and super
+* Constructor Function Properties
+* Static Members
+* new.target
+
+
+### Setting up a Dev environment
+
+To start using Babel and ES6, we probably need to do these:
+https://www.sitepoint.com/es6-babel-webpack/
+
+*REASON: Pluralsight tutorial is outdated.*
+
+#### Npm, http-server
+```
+npm init -y
+npm install babel-cli babel-preset-env --save-dev
+```
+
+`package.json` would have something like this:
+```json
+"devDependencies": {
+  "babel-cli": "^6.26.0",
+  "babel-preset-env": "^1.6.1"
+}
+```
+
+In `package.json` add this `build` line
+```json
+"scripts": {
+  "build": "babel src -d public"
+},
+```
+
+Now create a `.babelrc` file:
+```json
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7"]
+        }
+      }
+    ]
+  ]
+}
+```
+
+Try to run `npm run build`. 
+
+##### Webpack
+
+Now let's install webpack.
+
+`npm install webpack webpack-cli --save-dev`
+
+In `package.json` modify the `build` line to:
+```json
+"scripts": {
+  "build": "webpack --config webpack.config.js"
+},
+```
+
+Then create a `webpack.config.js` file.
+```javascript
+const path = require("path");
+
+module.exports = {
+  mode: 'development',
+  entry: "./src/js/index.js",
+  output: {
+    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js"
+  }
+};
+```
+Try to run `npm run build` again.
+
+##### Babel
+
+Now we install Babel.
+
+`npm install babel-loader babel-core --save-dev`
+
+You `webpack.config.js` should now look like this:
+```javascript
+const path = require("path");
+
+module.exports = {
+  mode: 'development',
+  entry: "./src/js/index.js",
+  output: {
+    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["babel-preset-env"]
+          }
+        }
+      }
+    ]
+  }
+};
+```
+
+Run `npm run build` yet again.
+
+##### The index.html
+
+Bring it to the browser with this HTML file.
+```html
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Webpack & Babel Demonstration</title>
+  </head>
+  <body>
+    <main>
+    Welcome!
+    </main>
+    <script src="./public/js/bundle.js" charset="utf-8"></script>
+  </body>
+</html>
+
+```
+
+##### Adding a file watch
+
+Now let's add a `watch` so that we don't have to run `npm run build` everytime we change something.
+
+So, add this `watch` line in `package.json`
+```json
+"scripts": {
+  "watch": "webpack --watch",
+  "build": "webpack --config webpack.config.js"
+},
+```
+
+Then run `npm run watch`
+
+##### Automatic browser refresh
+
+Finally, we setup automatic browser refresh.
+
+Run `npm install webpack-dev-server --save-dev`
+
+Then in `package.json` add the `start` line.
+```json
+"scripts": {
+  "watch": "webpack --watch",
+  "start": "webpack --watch & webpack-dev-server --open-page 'webpack-dev-server'",
+  "build": "webpack --config webpack.config.js"
+},
+```
+
+Now, run `npm start`.
+
+TO BE CONTINUED.
+
 # Rapid Javascript Training
 
 https://github.com/wenbert/es6/blob/master/rapid-javascript-training/README.md

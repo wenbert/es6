@@ -66,19 +66,32 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/base.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/js/index.js":
-/*!*************************!*\
-  !*** ./src/js/index.js ***!
-  \*************************/
+/***/ "./src/js/base.js":
+/*!************************!*\
+  !*** ./src/js/base.js ***!
+  \************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("throw new Error(\"Module build failed: Error: ENOENT: no such file or directory, open '/Users/wenbert/dev/es6-tutorial/rapid-es6-training/src/js/index.js'\");\n\n//# sourceURL=webpack:///./src/js/index.js?");
+"use strict";
+eval("\n\nvar _module = __webpack_require__(/*! ./module1.js */ \"./src/js/module1.js\");\n\n(0, _module.showProject)();\n(0, _module.updateFunction)();\n(0, _module.showProject)();\n\n//# sourceURL=webpack:///./src/js/base.js?");
+
+/***/ }),
+
+/***/ "./src/js/module1.js":
+/*!***************************!*\
+  !*** ./src/js/module1.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.showProject = showProject;\nexports.updateFunction = updateFunction;\nfunction showProject() {\n  console.log('in original');\n}\n\nfunction updateFunction() {\n  exports.showProject = showProject = function showProject() {\n    console.log('in updated');\n  };\n}\n\n//# sourceURL=webpack:///./src/js/module1.js?");
 
 /***/ })
 

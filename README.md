@@ -529,6 +529,7 @@ npm install babel-cli babel-preset-env --save-dev
 ```
 
 `package.json` would have something like this:
+
 ```json
 "devDependencies": {
   "babel-cli": "^6.26.0",
@@ -1136,7 +1137,246 @@ console.log(title.includes('ba')); //true
 ```
 
 #### Number extensions
-....
+```javascript
+console.log(Number.parseInt === parseInt); // true
+console.log(Number.parseFloat === parseFloat); // true
+```
+We're better off using `Number.parseInt`, etc. instead of the global `parseInt` function.
+
+```javascript
+console.log(Number.isInteger(3)); // true
+// Others
+console.log(Number.EPSILON);
+console.log(Number.MAX_SAFE_INTEGER);
+console.log(Number.MIN_SAFE_INTEGER);
+console.log(Number.isSafeInteger(3));
+
+console.log(Math.sign(0)); // 0
+console.log(Math.sign(-0)); // -0 (0 in Edge)
+console.log(Math.sign(-20)); // -1
+console.log(Math.sign(20)); // 1
+console.log(Math.sign(NaN)); // NaN
+console.log(Math.trunc(27.1)); // 27
+console.log(Math.trunc(-27.9)); // 27
+```
+
+#### Regular Expressions
+...
+
+#### Function Extensions
+```javascript
+let fn = function calc() {
+  return 0;
+}
+console.log(fn.name); // calc
+```
+
+This also applies to classes.
+```javascript
+class Calculator {
+  constructor() {
+  }
+  add() {
+  }
+}
+
+let c = new Calculator();
+console.log(Calculator.name); // Calculator
+console.log(c.add.name); // add
+```
+
+### Iterators, Generators, and Promises
+Iterators and Generators and new in ES6.
+Promises are now native in ES6.
+
+#### Iterators
+```javascript
+let ids = [9000, 90001, 9002];
+console.log(typeof ids[Symbol.iteraor]); // function
+
+let it = ids[Symbol.iterator](); 
+console.log(it.next()); // {done: false, value: 9000}
+console.log(it.next()); // {done: false, value: 9001}
+console.log(it.next()); // {done: false, value: 9002}
+console.log(it.next()); // {done: true, value: undefined}
+```
+
+#### Generator
+```javascript
+function *process() { // asterisk!
+  yield 8000;
+  yield 8001;
+}
+
+let it = process();
+console.log(it.next()); // {done: false, value: 8000}
+console.log(it.next()); // {done: false, value: 8001}
+console.log(it.next()); // {done: true, value: undefined}
+```
+
+Now a little bit more dynamic.
+```javascript
+function *process() {
+  let nextId = 7000;
+  while(true)
+    yield(nextId++);
+}
+
+let it = process();
+it.next();                    // 7000
+console.log(it.next().value); // 7001
+console.log(it.next().value); // 7002
+```
+
+Yields can return different types.
+```javascript
+function *process() {
+  yield 42;
+  yield [1, 2, 3];
+}
+
+let it = process();
+console.log(it.next().value); // 42
+console.log(it.next().value); // [1, 2, 3]
+console.log(it.next().value); // undefined
+```
+
+You can have an generator return a generator of an array
+```javascript
+function *process() {
+  yield 42;
+  yield* [1, 2, 3]; // asterisk!
+}
+
+let it = process();
+console.log(it.next().value); // 42
+console.log(it.next().value); // 1
+console.log(it.next().value); // 2
+console.log(it.next().value); // 3
+console.log(it.next().value); // undefined
+```
+
+#### Promises
+```javascript
+function doAsync() {
+  let p = new Promise(function (resolve, reject) {
+    console.log('in promise code');
+
+    // Simulate a delay of 2 seconds
+    setTimeout(function() {
+      console.log('resolving...');
+      resolve();
+      // or reject();
+    }, 2000);
+
+  });
+  return p;
+}
+
+let promise = doAsync();
+/* Output:
+in promise code
+(2 second delay)
+resolving...
+*/
+```
+In the code above, `Promise` takes 2 params. When we want the promise to be fulfilled, we call `resolve` as a function - so `resolve()`. And if some error occurs, we call `reject` as a function (`reject()`)'
+
+So how do we work with promises in our code?
+```javascript
+function doAsync() {
+  // return a Promise, will be rejected
+}
+
+doAsync().then(function() {
+  console.log('Fulfilled!');
+},
+function() {
+  console.log('Rejected!'); // This is executed because "rejected"
+});
+```
+
+So first function in `then` is called when Promise is resolved. The second function is call if the Promise is rejected.
+
+You can also pass parameters in `resolve()` and `reject()`.
+```javascript
+function doAsync() {
+  // returns a Promise, will be rejected using:
+  // reject('Database error');
+}
+
+doAsync().then(function(value) {
+  console.log('Fulfilled!' + value);
+},
+function(value) {
+  console.log('Rejected!' + value); // Rejected! Database error
+});
+```
+
+We can also "chain" Promises.
+
+```javascript
+function doAsync() {
+  // returns a Promise, will be resolved using:
+  // resolve('OK');
+}
+
+doAsync()
+.then(
+  function(value) {
+    console.log('Fulfilled!' + value);
+    return 'For Sure';
+  }
+).then(
+  function(value) {
+    console.log('Really! ' + value);
+  }
+);
+/* Output:
+in promise code
+(wait for resolution)
+Fullfield! OK
+Really! For Sure
+*/
+```
+
+So, the `return 'For Sure';` line, return to the next `then()` part. That function receives a param.
+
+So how to catch Promises that are rejected?
+```javascript
+function doAsync() {
+  // returns a Promise, that will be rejected using:
+  // reject('No Go');
+}
+
+doAsync().catch(function (reason) {
+  console.log('Error: ' + reason);
+});
+```
+
+Now, what if we wanted to call more than 1 Promise then wait for both to "respond"?
+
+```javascript
+let p1 = new Promise(...);
+let p2 = new Promise(...);
+
+Promise.all([p1, p2]).then(
+  function (value) { console.log('Ok') },
+  function (reason) { console.log('Nope') },
+);
+
+// assume p1 resolves after 3 seconds
+// assume p2 resolves after 5 seconds
+// Output: 5 second delay, then Ok
+
+// assume p1 resolves after 1 second
+// assume p2 is rejected after 2 seconds
+// Output: 2 second delay, then Nope
+
+// assume p1 is rejected after 3 seconds
+// assume p2 is rejected after 5 second
+// Output: 3 second delay, then Nope
+```
 
 # Rapid Javascript Training
 

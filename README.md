@@ -1041,8 +1041,102 @@ class SoftwareProject extends Project {
   static getDefaultId() { return 99; }
 }
 
-var p = new SoftwareProject(); // 99
+var p = new SoftwareProject(); // 99 
 ```
+
+### Symbols
+> A symbol is a unique and immutable data type and may be used as an identifier for object properties. - Mozilla Developer Network
+
+```javascript
+let eventSymbol = Symbol('resize event');
+console.log(typeof eventSymbol); // symbol
+console.log(typeof eventSymbol.toString()); // Symbol('resize event')
+```
+
+Symbol is a new type in ES6.
+
+```javascript
+const CALCULATE_EVENT_SYMBOL = Symbol('calculate event');
+console.log(CALCULATE_EVENT_SYMBOL.toString()); // Symbol('calculate event')
+```
+
+```javascript
+let s = Symbol.('event');
+let s2 = Symbol.('event');
+console.log(s === s2); // false - no "for"
+```
+
+Using Symbol.for
+
+```javascript
+let s = Symbol.for('event');
+let s2 = Symbol.for('event');
+console.log(s.toString()); // Symbol('event')
+console.log(s === s2); // true
+
+let description = Symbol.keyFor(s);
+console.log(description); // event
+```
+
+##### What do we use this for???
+
+```javascript
+let article = {
+  title: 'Whiteface Mountain',
+  [Symbol.for('article')]: 'My Article'
+}
+
+let value = article[Symbol.for('article')];
+console.log(value); // My Article
+```
+
+So is this like a "global" string / unique indentifier? I don't know enough yet.
+
+##### Well-known symbols
+```javascript
+let Blog = function() {
+  
+};
+Blog.prototype[Symbol.toStringTag] = 'Blog Class';
+let blog = new Blog();
+console.log(blog.toString()); // [object Blog Class]
+```
+Google is your friend. Search for "MDN Symbols"
+
+#### Object
+##### Object.setPrototypeOf
+```javascript
+let a = {
+  x: 1
+};
+let b = {
+  y: 2
+};
+Object.setPrototypeOf(a, b);
+console.log(a.y); // 2
+// Note: Y does not exist in a. But we "extend" b
+```
+
+##### Object.assign
+```javascript
+let a = {a: 1}, b = {b: 2};
+
+let target = {};
+Object.assign(target, a, b);
+console.log(target); // {a: 1, b: 2}
+```
+So `Object.assign` will populate `target` with `a` and `b`.
+
+##### String extensions
+```javascript
+let title = 'Santa Barbara Surf Riders';
+console.log(title.startsWith('Santa')); //true
+console.log(title.endsWith('Riders')); //true
+console.log(title.includes('ba')); //true
+```
+
+#### Number extensions
+....
 
 # Rapid Javascript Training
 

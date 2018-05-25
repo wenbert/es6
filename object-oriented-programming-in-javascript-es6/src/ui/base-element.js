@@ -3,6 +3,8 @@ import $ from 'jquery';
 export class BaseElement {
     constructor() {
         this.element = null; // jQuery Object
+        console.log(this.element);
+        return;
     }
 
     appendToElement(el) {

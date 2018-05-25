@@ -1,3 +1,5 @@
+I moved it to this directory because: https://github.com/wenbert/es6/issues/1
+
 # Object-oriented Programming in JavaScript - ES6
 
 Pluralsight URL: https://app.pluralsight.com/library/courses/javascript-es6-object-oriented-programming/exercise-files

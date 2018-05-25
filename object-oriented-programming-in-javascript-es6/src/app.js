@@ -1,19 +1,20 @@
 import $ from 'jquery';
 import {Car} from './classes/car.js';
 import {Drone} from './classes/drone.js';
-import {fleet} from './fleet-data.js';
+import {fleet} from './data/fleet-data.js';
 import {FleetDataService} from './services/fleet-data-service.js';
 import {Button} from './ui/button.js';
 
-let b = new Button('Click Me');
-b.appendToElement($('body'));
+//let b = new Button('Click Me');
+//console.log(b.appendToElement($));
 
-// let dataService = new FleetDataService();
-// dataService.loadData(fleet);
 
-// for (let car of dataService.cars) {
-//     console.log('car license: ' + car.license);
-// }
+let dataService = new FleetDataService();
+dataService.loadData(fleet);
+
+for (let car of dataService.cars) {
+    console.log('car license: ' + car.license);
+}
 
 // for (let drone of dataService.drones) {
 //     console.log('drone license: ' + drone.license);
